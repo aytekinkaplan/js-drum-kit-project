@@ -1,0 +1,134 @@
+html {
+  font-size: 10px;
+  background: url("./background.jpg") bottom center;
+  background-size: cover;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  overflow: hidden; /* Sayfa kaydırma çubuğunu gizle */
+}
+
+/* Drum machine konteyneri */
+#drum-machine {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: relative;
+  z-index: 1; /* Drum pad'ler için üstte kalacak şekilde */
+}
+
+/* Drum pad stili */
+.drum-pad {
+  width: 120px;
+  height: 120px;
+  margin: 10px;
+  background-color: #202328; /* Koyu arka plan */
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgb(8, 155, 240); /* Glow efekti */
+}
+
+/* Drum pad içerik stili */
+.pad-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Drum pad üzerindeki yazı stili */
+.pad-text {
+  font-size: 50px; /* Daha büyük font boyutu */
+  margin: 0;
+  padding: 0;
+}
+
+/* Ses dosyası adı stili */
+.sound-name {
+  margin: 0;
+  padding: 0;
+  color: #ffffff;
+  font-size: 1.2em; /* Daha büyük font boyutu */
+  text-shadow: 0 0 8px white; /* Beyaz glow efekti */
+}
+
+/* Dalgalı ışık efekti */
+.drum-pad::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  z-index: -1;
+}
+
+.drum-pad:hover::before {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Drum pad üzerine tıklama efekti */
+.drum-pad:active {
+  transform: scale(0.9);
+  background-color: #555;
+}
+
+.drum-pad:active::before {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Dev görsel halka stili */
+.main-visualizer {
+  position: absolute;
+  width: 100vw; /* Tam genişlik */
+  height: 100vh; /* Tam yükseklik */
+  top: 0;
+  left: 0;
+  z-index: 0; /* Arka planda olacak şekilde */
+  pointer-events: none; /* Tıklama olaylarını engelle */
+  overflow: hidden; /* İçerik taşmasını gizle */
+}
+
+/* Glow efekti */
+.drum-pad.playing {
+  background-color: #444;
+  box-shadow: 0 0 30px yellow;
+}
+
+/* Dalgalı ışık efekti */
+.wave {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 0;
+}
+
+@keyframes wave-animation {
+  0% {
+    opacity: 1;
+    width: 0;
+    height: 0;
+    border-width: 2px;
+  }
+  100% {
+    opacity: 0;
+    width: 100vw; /* Sayfa genişliğinde yayılma */
+    height: 100vh; /* Sayfa yüksekliğinde yayılma */
+    border-width: 10px;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.5); /* Glow efekti */
+  }
+}
