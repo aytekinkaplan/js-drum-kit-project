@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", function () {
   for (let alphabet of "ASDFGHJKL") {
     const newElement = document.createElement("div");
     newElement.classList.add("drum-pad");
+    newElement.setAttribute("data-key", alphabet);
 
     // Drum pad content
     const padContent = document.createElement("div");
@@ -38,23 +39,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Add click event for each drum pad
     newElement.addEventListener("click", function () {
-      const audio = new Audio(soundFiles[alphabet]);
-      audio.play();
-
-      // Create waves based on sound intensity
+      playSound(alphabet);
       createWaveEffect();
-
-      // Glow effect for the key
-      newElement.classList.add("playing");
-      setTimeout(() => newElement.classList.remove("playing"), 500); // Glow effect fades out after 500ms
     });
 
     drumMachine.appendChild(newElement);
   }
 
-  // Create main visualizer
-  const mainVisualizer = document.querySelector(".main-visualizer");
+  // Handle keydown event
+  window.addEventListener("keydown", function (e) {
+    const key = e.key.toUpperCase();
+    if (soundFiles[key]) {
+      playSound(key);
+      createWaveEffect();
+      const drumPad = document.querySelector(`.drum-pad[data-key="${key}"]`);
+      if (drumPad) {
+        drumPad.classList.add("playing");
+        setTimeout(() => drumPad.classList.remove("playing"), 500); // Glow effect fades out after 500ms
+      }
+    }
+  });
 });
+
+function playSound(key) {
+  const audio = new Audio(soundFiles[key]);
+  audio.play();
+}
 
 function createWaveEffect() {
   // Define color options
